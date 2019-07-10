@@ -19,25 +19,20 @@
     <div class="container-fluid h-100">
       <div class="row m-3 h-100">
         <div class=" col-md-5 border side_bar" id="side_bar">
-          <div id="notes_options" class="row p-2 border-bottom notes_options">
-            <h3 class="col-12 my-0">NoteApp</h3>
-            <button type="button" class="btn ml-2">
-              <i class="fas fa-plus-circle"></i>
-            </button>
-            <p class="d-inline m-0">Add Note</p>
-          </div>
+          <h1 class="main_title my-0">NoteApp</h1>
 
-          <div class="row note_list p-2" id="notes_list">
-            <h3 class="col-12">Notes</h3>
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+          <div class="row note_list p-3" id="notes_list">
+            <div
+              class="d-flex justify-content-between align-items-center w-100 sticky-top "
+            >
+              <div>
+                <h4 class="section_title">Notes List</h4>
+              </div>
+              <div>
+                <button type="button" class="btn ml-2">
+                  <i class="fas fa-plus-circle text-primary"></i>
+                </button>
+                <p class="d-inline">Add Note</p>
               </div>
             </div>
 
@@ -55,40 +50,43 @@
           </div>
         </div>
 
-        <div class="current_note col-md-7  p-2 border">
-          <div class="p-2 " id="note_space">
-            <form>
-              <div class="form-group row pr-3">
-                <label
-                  for="color_selection"
-                  class="offset-5 col-4 col-form-label text-right"
-                  >Note color</label
-                >
-                <select class="form-control col-3 pr-3" id="color_selection">
-                  <option>Red</option>
-                  <option>White</option>
-                  <option>Yellow</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <input
-                  type="text"
-                  class="form-control note_title"
-                  id="note_title"
-                  placeholder="Enter Note's Title"
-                />
-              </div>
-
-              <div class="form-group">
-                <textarea
-                  class="form-control note_text"
-                  id="exampleFormControlTextarea1"
-                  rows="3"
-                  placeholder="Enter note"
-                ></textarea>
-              </div>
-            </form>
+        <div class="current_note col-md-7 p-2 mb-3 mb-md-0 border">
+          <div
+            class="color_picker d-flex align-items-center  justify-content-between"
+          >
+            <div class="color_options d-flex align-items-center py-2">
+              <h6 class="d-inline my-0 px-2">Color:</h6>
+              <i class="fas fa-circle text-muted"></i>
+              <i class="fas fa-circle text-primary"></i>
+              <i class="fas fa-circle text-danger"></i>
+              <i class="fas fa-circle text-success"></i>
+            </div>
+            <div class="save px-3">
+              <button type="submit" class="btn">
+                <i class="fas fa-save"></i>
+              </button>
+            </div>
           </div>
+
+          <form>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control note_title"
+                id="note_title"
+                placeholder="Enter Note's Title"
+              />
+            </div>
+
+            <div class="form-group">
+              <textarea
+                class="form-control note_text"
+                id="exampleFormControlTextarea1"
+                rows="3"
+                placeholder="Enter note"
+              ></textarea>
+            </div>
+          </form>
         </div>
       </div>
     </div>

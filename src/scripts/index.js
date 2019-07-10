@@ -1,6 +1,29 @@
 import "../styles/index.scss";
 
-class Note {
+const init = () => {
+  if (!notesAlreadyExist()) createWelcomeNote();
+};
+
+const notesAlreadyExist = () => localStorage.getItem("notes");
+
+const createWelcomeNote = () => {
+  saveInStorage(
+    "notes",
+    new Note(
+      "This is a example note",
+      new Date(),
+      new Date(),
+      `Hi, and thanks for using the new NoteApp`
+    )
+  );
+};
+
+const saveInStorage = (name, value) =>
+  localStorage.setItem(name, JSON.stringify(value));
+
+const getFromStorage = name => JSON.parse(localStorage.getItem(name));
+
+const Note = class {
   constructor(
     title = "",
     dateCreated = new Date(),
@@ -34,27 +57,6 @@ class Note {
       text: this.text
     };
   }
-}
-
-const init = () => {
-  if (!notesAlreadyExist()) {
-    saveInStorage(
-      "notes",
-      new Note(
-        "This is a example note",
-        new Date(),
-        new Date(),
-        `Hi, and thanks for using the new NoteApp`
-      )
-    );
-  }
-  saveInStorage("currentNote", new Note());
 };
-
-const notesAlreadyExist = () => localStorage.getItem("notes");
-
-const saveInStorage = (name, value) =>
-  localStorage.setItem(name, JSON.stringify(value));
-const getFromStorage = name => JSON.parse(localStorage.getItem(name));
 
 init();

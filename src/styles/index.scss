@@ -1,5 +1,23 @@
 $body-color: black;
 
+$color-primary-0: #007DFF; // Main Primary color */
+$color-primary-1: #3A99FC;
+$color-primary-2: #1085FF;
+$color-primary-3: #0059B6;
+$color-primary-4: #00448B;
+
+$color-secondary-1-0: #F2FF00; // Main Secondary color (1) */
+$color-secondary-1-1: #F4FF2A;
+$color-secondary-1-2: #F2FF00;
+$color-secondary-1-3: #F0FD00;
+$color-secondary-1-4: #C8D300;
+
+$color-secondary-2-0: #FF007D; // Main Secondary color (2) */
+$color-secondary-2-1: #FE2A92;
+$color-secondary-2-2: #FF007D;
+$color-secondary-2-3: #DB006B;
+$color-secondary-2-4: #B00057;
+
 * {
   box-sizing: border-box;
 }
@@ -10,45 +28,68 @@ html {
 
 body {
   color: $body-color;
-  height: 100%;
+  height: 95%;
   min-width: 330px;
 }
 
-.notes_options {
-  height: 100px;
 
-  button {
-    padding: 0.25rem;
-    text-align: center;
-    width: 50px;
-    height: 50px;
+.side_bar {
 
-    .fas {
+  .main_title {
+    color: $color-secondary-2-0;
+  }
+
+  .note_list {
+    min-height: 150px;
+    overflow: scroll;
+
+    .section_title {
+      color: $color-secondary-2-4;
+    }
+
+    button {
+      padding: 0.25rem;
+      text-align: center;
+      width: 50px;
+      height: 50px;
       font-size: 1.5rem;
-      padding: 0
+    }
+
+    .card {
+      margin: 1rem auto;
     }
   }
 
-  p {
-    line-height: 50px;
-    padding: 0;
-  }
 
 }
 
-.note_list {
-  min-height: 150px;
-
-  .card {
-    margin: 1rem auto;
-  }
-}
 
 .current_note {
-  min-height: 500px;
+  min-height: 300px;
+  font-size: 1.3rem;
+
+  i {
+    padding: 0.15rem;
+  }
+
+  i:hover {
+    cursor: pointer;
+  }
+
+  .save .fas {
+    font-size: 2rem;
+    color: $color-primary-0;
+  }
+
+  .color_options {
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+  }
 
   .form-control.note_title {
     border: none;
+    border-radius: 0;
     border-bottom: 1px solid lightgray;
     text-transform: capitalize
   }
