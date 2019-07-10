@@ -2,6 +2,7 @@ import "../styles/index.scss";
 
 const init = () => {
   if (!notesAlreadyExist()) createWelcomeNote();
+  addEventListeners();
 };
 
 const notesAlreadyExist = () => localStorage.getItem("notes");
@@ -16,6 +17,25 @@ const createWelcomeNote = () => {
       `Hi, and thanks for using the new NoteApp`
     )
   );
+};
+
+const addEventListeners = () => {
+  document.getElementById("save").addEventListener("click", saveNote);
+  document
+    .getElementById("color_picker")
+    .addEventListener("click", selectColor);
+  document.getElementById("add_note").addEventListener("click", addNote);
+};
+
+const saveNote = e => {
+  e.preventDefault;
+  console.log("save note");
+};
+const selectColor = () => {
+  console.log("selectColor");
+};
+const addNote = () => {
+  console.log("add note");
 };
 
 const saveInStorage = (name, value) =>

@@ -68,6 +68,7 @@ body {
   min-height: 300px;
   font-size: 1.3rem;
 
+
   i {
     padding: 0.15rem;
   }
@@ -76,9 +77,16 @@ body {
     cursor: pointer;
   }
 
-  .save .fas {
-    font-size: 2rem;
-    color: $color-primary-0;
+  .save {
+    .btn {
+      padding: 0;
+
+    }
+
+    .fas {
+      font-size: 2rem;
+      color: $color-primary-0;
+    }
   }
 
   .color_options {
@@ -99,7 +107,7 @@ body {
   }
 
   .note_text {
-    min-height: 500px;
+    min-height: 300px;
   }
 
 }
