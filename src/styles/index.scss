@@ -1,5 +1,64 @@
-$body-color: blue;
+$body-color: black;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
 
 body {
   color: $body-color;
+  height: 100%;
+  min-width: 330px;
+}
+
+.notes_options {
+  height: 100px;
+
+  button {
+    padding: 0.25rem;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+
+    .fas {
+      font-size: 1.5rem;
+      padding: 0
+    }
+  }
+
+  p {
+    line-height: 50px;
+    padding: 0;
+  }
+
+}
+
+.note_list {
+  min-height: 150px;
+
+  .card {
+    margin: 1rem auto;
+  }
+}
+
+.current_note {
+  min-height: 500px;
+
+  .form-control.note_title {
+    border: none;
+    border-bottom: 1px solid lightgray;
+    text-transform: capitalize
+  }
+
+  .form-control.note_text {
+    border: none;
+  }
+
+  .note_text {
+    min-height: 500px;
+  }
+
 }
