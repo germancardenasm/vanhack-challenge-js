@@ -9,45 +9,66 @@ html {
 
 body {
   color: black;
-  height: 100%;
+  height: 95%;
   min-width: 330px;
 }
 
-.notes_options {
-  height: 100px;
+.side_bar .main_title {
+  color: #FF007D;
 }
 
-.notes_options button {
+.side_bar .note_list {
+  min-height: 150px;
+  overflow: scroll;
+}
+
+.side_bar .note_list .section_title {
+  color: #B00057;
+}
+
+.side_bar .note_list button {
   padding: 0.25rem;
   text-align: center;
   width: 50px;
   height: 50px;
-}
-
-.notes_options button .fas {
   font-size: 1.5rem;
-  padding: 0;
 }
 
-.notes_options p {
-  line-height: 50px;
-  padding: 0;
-}
-
-.note_list {
-  min-height: 150px;
-}
-
-.note_list .card {
+.side_bar .note_list .card {
   margin: 1rem auto;
 }
 
 .current_note {
-  min-height: 500px;
+  min-height: 300px;
+  font-size: 1.3rem;
+}
+
+.current_note i {
+  padding: 0.15rem;
+}
+
+.current_note i:hover {
+  cursor: pointer;
+}
+
+.current_note .save .btn {
+  padding: 0;
+}
+
+.current_note .save .fas {
+  font-size: 2rem;
+  color: #007DFF;
+}
+
+.current_note .color_options {
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
 }
 
 .current_note .form-control.note_title {
   border: none;
+  border-radius: 0;
   border-bottom: 1px solid lightgray;
   text-transform: capitalize;
 }
@@ -57,6 +78,6 @@ body {
 }
 
 .current_note .note_text {
-  min-height: 500px;
+  min-height: 300px;
 }
 /*# sourceMappingURL=index.css.map */

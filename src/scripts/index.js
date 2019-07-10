@@ -1,5 +1,7 @@
 import "../styles/index.scss";
 
+let idCount = notesIdCounter();
+
 const init = () => {
   if (!notesAlreadyExist()) createWelcomeNote();
   addEventListeners();
@@ -8,15 +10,14 @@ const init = () => {
 const notesAlreadyExist = () => localStorage.getItem("notes");
 
 const createWelcomeNote = () => {
-  saveInStorage(
-    "notes",
+  saveInStorage("notes", [
     new Note(
       "This is a example note",
       new Date(),
       new Date(),
       `Hi, and thanks for using the new NoteApp`
     )
-  );
+  ]);
 };
 
 const addEventListeners = () => {
@@ -28,8 +29,13 @@ const addEventListeners = () => {
 };
 
 const saveNote = e => {
-  e.preventDefault;
-  console.log("save note");
+  e.preventDefault();
+  const title = document.getElementById("note_title").value;
+  const content = document.getElementById("note_content").value;
+  const current_note = new Note(title, content, idCount.getId);
+  const notes = getFromStorage("notes");
+  notes.push(current_note);
+  saveInStorage("notes", notes);
 };
 const selectColor = () => {
   console.log("selectColor");
@@ -46,14 +52,16 @@ const getFromStorage = name => JSON.parse(localStorage.getItem(name));
 const Note = class {
   constructor(
     title = "",
+    content = "",
+    id = 0,
     dateCreated = new Date(),
-    dateModified = new Date(),
-    content = ""
+    dateModified = new Date()
   ) {
     this.title = title;
+    this.content = content;
+    this.id = id;
     this.dateCreated = dateCreated;
     this.dateModified = dateModified;
-    this.content = content;
   }
 
   setContent(note_content) {
@@ -78,5 +86,24 @@ const Note = class {
     };
   }
 };
+
+function notesIdCounter() {
+  let id = 0;
+  return {
+    increaseId: function() {
+      return ++id;
+    },
+    decreseId: function() {
+      if (id === 0) return 0;
+      return --id;
+    },
+    getId: function() {
+      return id;
+    },
+    setId: function(n) {
+      id = n;
+    }
+  };
+}
 
 init();
