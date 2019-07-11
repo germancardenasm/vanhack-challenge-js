@@ -5,12 +5,14 @@ let idCount = notesIdCounter();
 const init = () => {
   if (!notesAlreadyExist()) {
     createWelcomeNote();
-  } else {
-    const list = getFromStorage("notes");
-    list.forEach(element => {
-      loadNoteInList(element);
-    });
   }
+
+  const list = getFromStorage("notes");
+  list.forEach(element => {
+    loadNoteInList(element);
+  });
+  idCount.setId(list[list.length - 1].id);
+
   saveInStorage("currentNote", {});
   addEventListeners();
 };
@@ -33,6 +35,7 @@ const addEventListeners = () => {
   getById("save").addEventListener("click", saveNote);
   getById("color_picker").addEventListener("click", selectColor);
   getById("add_note").addEventListener("click", addNote);
+  getById("notes_list").addEventListener("click", loadSelectedNote);
 };
 
 const addNote = () => {
@@ -93,8 +96,35 @@ const loadNoteInList = note => {
   );
   let noteContainer = document.createElement("div");
   noteContainer.classList.add("card");
+  noteContainer.id = note.id;
   noteContainer.innerHTML = newNote.noteHTML;
   notes_list.appendChild(noteContainer);
+};
+
+const loadSelectedNote = e => {
+  let note = {};
+  let noteIndex = 0;
+  const list = getFromStorage("notes");
+  let noteTitle = getById("note_title");
+  let noteContent = getById("note_content");
+
+  if (!isNoteContainer(e)) return;
+  let nodeElement = e.target;
+  while (!nodeElement.classList.contains("card")) {
+    nodeElement = nodeElement.parentElement;
+  }
+  noteIndex = parseInt(nodeElement.id - 1);
+  note = list[noteIndex];
+  saveInStorage("currentNote", note);
+  noteTitle.value = note.title;
+  noteContent = note.content;
+};
+
+const isNoteContainer = e => {
+  const isIt =
+    e.target.parentElement.classList.contains("card-body") ||
+    e.target.parentElement.classList.contains("card");
+  return isIt;
 };
 
 const selectColor = () => {
