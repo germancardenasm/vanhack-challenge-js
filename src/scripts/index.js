@@ -5,8 +5,13 @@ let idCount = notesIdCounter();
 const init = () => {
   if (!notesAlreadyExist()) {
     createWelcomeNote();
-    saveInStorage("currentNote", {});
+  } else {
+    const list = getFromStorage("notes");
+    list.forEach(element => {
+      loadNoteInList(element);
+    });
   }
+  saveInStorage("currentNote", {});
   addEventListeners();
 };
 
@@ -77,12 +82,19 @@ const updateNote = note => {
   return note;
 };
 
-const loadNoteInList = currentNote => {
+const loadNoteInList = note => {
   const notes_list = getById("notes_list");
-  let note = document.createElement("div");
-  note.classList.add("card");
-  note.innerHTML = currentNote.noteHTML;
-  notes_list.appendChild(note);
+  let newNote = new Note(
+    note.title,
+    note.content,
+    note.id,
+    note.dateCreated,
+    note.dataModified
+  );
+  let noteContainer = document.createElement("div");
+  noteContainer.classList.add("card");
+  noteContainer.innerHTML = newNote.noteHTML;
+  notes_list.appendChild(noteContainer);
 };
 
 const selectColor = () => {
