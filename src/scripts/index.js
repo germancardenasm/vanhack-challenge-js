@@ -21,11 +21,9 @@ const createWelcomeNote = () => {
 };
 
 const addEventListeners = () => {
-  document.getElementById("save").addEventListener("click", saveNote);
-  document
-    .getElementById("color_picker")
-    .addEventListener("click", selectColor);
-  document.getElementById("add_note").addEventListener("click", addNote);
+  getById("save").addEventListener("click", saveNote);
+  getById("color_picker").addEventListener("click", selectColor);
+  getById("add_note").addEventListener("click", addNote);
 };
 const addNote = () => {
   console.log("add note");
@@ -33,15 +31,23 @@ const addNote = () => {
 
 const saveNote = e => {
   e.preventDefault();
-  const title = document.getElementById("note_title").value;
-  const content = document.getElementById("note_content").value;
+  console.log("save note");
+  const title = getById("note_title").value;
+  const content = getById("note_content").value;
   const current_note = new Note(title, content, idCount.getId);
   const notes = getFromStorage("notes");
   notes.push(current_note);
   saveInStorage("notes", notes);
+  loadNoteList(current_note);
 };
 
-const loadNote = () => {};
+const loadNoteList = current_note => {
+  const notes_list = getById("notes_list");
+  let note = document.createElement("div");
+  note.classList.add("card");
+  note.innerHTML = current_note.noteHTML;
+  notes_list.appendChild(note);
+};
 
 const selectColor = () => {
   console.log("selectColor");
@@ -51,6 +57,8 @@ const saveInStorage = (name, value) =>
   localStorage.setItem(name, JSON.stringify(value));
 
 const getFromStorage = name => JSON.parse(localStorage.getItem(name));
+
+const getById = id => document.getElementById(id);
 
 const Note = class {
   constructor(
@@ -85,8 +93,20 @@ const Note = class {
       title: this.title,
       dateCreated: this.dateCreated,
       lastModified: this.dateModified,
-      text: this.text
+      content: this.content
     };
+  }
+
+  get noteHTML() {
+    return `<div class="card-body">
+           <h5 class="card-title">${this.title}</h5>
+           <p class="card-text">
+            ${this.content}
+           </p>
+           <a href="#" class="card-link">Card link</a>
+           <a href="#" class="card-link">Another link</a>
+         </div>
+        `;
   }
 };
 
