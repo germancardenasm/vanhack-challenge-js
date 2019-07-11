@@ -27,6 +27,9 @@ const addEventListeners = () => {
     .addEventListener("click", selectColor);
   document.getElementById("add_note").addEventListener("click", addNote);
 };
+const addNote = () => {
+  console.log("add note");
+};
 
 const saveNote = e => {
   e.preventDefault();
@@ -37,11 +40,11 @@ const saveNote = e => {
   notes.push(current_note);
   saveInStorage("notes", notes);
 };
+
+const loadNote = () => {};
+
 const selectColor = () => {
   console.log("selectColor");
-};
-const addNote = () => {
-  console.log("add note");
 };
 
 const saveInStorage = (name, value) =>

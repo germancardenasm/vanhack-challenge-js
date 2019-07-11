@@ -29,7 +29,7 @@ html {
 body {
   color: $body-color;
   height: 95%;
-  min-width: 330px;
+  min-width: 340px;
 }
 
 
@@ -39,10 +39,7 @@ body {
     color: $color-secondary-2-0;
   }
 
-  .note_list {
-    min-height: 150px;
-    overflow: scroll;
-
+  .list_options {
     .section_title {
       color: $color-secondary-2-4;
     }
@@ -54,8 +51,18 @@ body {
       height: 50px;
       font-size: 1.5rem;
     }
+  }
+
+  .notes_list {
+    position: relative;
+    min-height: 200px;
+    overflow: scroll;
+
+
 
     .card {
+      width: 100%;
+      max-width: 250px;
       margin: 1rem auto;
     }
   }
