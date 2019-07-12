@@ -29,7 +29,7 @@ html {
 body {
   color: $body-color;
   height: 95%;
-  min-width: 340px;
+  min-width: 320px;
 }
 
 
@@ -77,31 +77,42 @@ body {
   min-height: 300px;
   font-size: 1.3rem;
 
+  .note_options {
 
-  i {
-    padding: 0.15rem;
-  }
+    margin: 1rem 0 1rem 0;
 
-  i:hover {
-    cursor: pointer;
-  }
+    .color_picker {
 
-  .save {
-    .btn {
-      padding: 0;
+      i {
+        padding: 0.2rem;
+      }
+
+      i:hover {
+        cursor: crosshair;
+      }
+    }
+
+    .options_icons {
+      margin-bottom: 0.5rem;
+      padding-right: 0.1rem;
+
+      .date {
+        position: relative;
+        top: 5px;
+        left: 8px;
+        font-size: 0.6rem;
+        color: gray;
+      }
+
+      .icon {
+        padding-left: 1.25rem;
+        padding-right: 0.3rem;
+      }
+
 
     }
 
-    .fas {
-      font-size: 2rem;
-      color: $color-primary-0;
-    }
-  }
 
-  .color_options {
-    height: 50px;
-    line-height: 50px;
-    vertical-align: middle;
   }
 
   .form-control.note_title {

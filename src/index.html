@@ -17,8 +17,8 @@
   </head>
   <body>
     <div class="container-fluid h-100">
-      <div class="row m-3 h-100">
-        <div class=" side_bar col-md-4 border " id="side_bar">
+      <div class="row h-100">
+        <div class=" side_bar col-md-4 p-3 " id="side_bar">
           <h1 class="main_title my-0">NoteApp</h1>
 
           <div
@@ -46,23 +46,28 @@
           id="current_note"
           class="current_note col-md-8 p-3 mb-3 mb-md-0 border"
         >
-          <div
-            class="color_picker d-flex align-items-center  justify-content-between"
-          >
+          <div class="note_options d-flex flex-column  justify-content-between">
+            <div
+              id="options_icons"
+              class="options_icons d-flex justify-content-between"
+            >
+              <span class="date">Date Modified: 18-Sep-19</span>
+              <div>
+                <i id="trash" class="icon far fa-trash-alt"></i>
+                <i id="save" class="icon fas fa-save"></i>
+                <i id="close" class="icon fas fa-times"></i>
+              </div>
+            </div>
+
             <div
               id="color_picker"
-              class="color_options d-flex align-items-center py-2"
+              class="color_picker d-flex align-items-center justify-content-between py-2"
             >
-              <h6 class="d-inline my-0 px-2">Color:</h6>
-              <i class="fas fa-circle text-muted"></i>
-              <i class="fas fa-circle text-primary"></i>
-              <i class="fas fa-circle text-danger"></i>
-              <i class="fas fa-circle text-success"></i>
-            </div>
-            <div class="save">
-              <button id="save" type="submit" class="btn">
-                <i class="fas fa-save"></i>
-              </button>
+              <h6 class="d-inline my-0 px-2">Note Color:</h6>
+              <i id="gray" class="fas fa-circle text-muted"></i>
+              <i id="blue" class="fas fa-circle text-primary"></i>
+              <i id="red" class="fas fa-circle text-danger"></i>
+              <i id="green" class="fas fa-circle text-success"></i>
             </div>
           </div>
 

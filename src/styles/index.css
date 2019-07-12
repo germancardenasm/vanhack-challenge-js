@@ -10,7 +10,7 @@ html {
 body {
   color: black;
   height: 95%;
-  min-width: 340px;
+  min-width: 320px;
 }
 
 .side_bar .main_title {
@@ -51,27 +51,34 @@ body {
   font-size: 1.3rem;
 }
 
-.current_note i {
-  padding: 0.15rem;
+.current_note .note_options {
+  margin: 1rem 0 1rem 0;
 }
 
-.current_note i:hover {
-  cursor: pointer;
+.current_note .note_options .color_picker i {
+  padding: 0.2rem;
 }
 
-.current_note .save .btn {
-  padding: 0;
+.current_note .note_options .color_picker i:hover {
+  cursor: crosshair;
 }
 
-.current_note .save .fas {
-  font-size: 2rem;
-  color: #007DFF;
+.current_note .note_options .options_icons {
+  margin-bottom: 0.5rem;
+  padding-right: 0.1rem;
 }
 
-.current_note .color_options {
-  height: 50px;
-  line-height: 50px;
-  vertical-align: middle;
+.current_note .note_options .options_icons .date {
+  position: relative;
+  top: 5px;
+  left: 8px;
+  font-size: 0.6rem;
+  color: gray;
+}
+
+.current_note .note_options .options_icons .icon {
+  padding-left: 1.25rem;
+  padding-right: 0.3rem;
 }
 
 .current_note .form-control.note_title {
