@@ -41,7 +41,7 @@ body {
 
   .list_options {
     .section_title {
-      color: $color-secondary-2-4;
+      color: $color-primary-0;
     }
 
     button {
@@ -58,16 +58,17 @@ body {
     min-height: 200px;
     overflow: scroll;
 
-
-
     .card {
-      height: 220px;
+      height: 200px;
       width: 100%;
-      max-width: 250px;
-      margin: 1rem auto;
+      max-width: 200px;
+      margin: 0.5rem auto;
+    }
+
+    .selected {
+      border: 2px solid #FF007D;
     }
   }
-
 
 }
 

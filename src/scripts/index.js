@@ -120,17 +120,29 @@ const loadSelectedNote = e => {
   let note = {};
   let noteIndex = 0;
   const list = getFromStorage("notes");
-  let noteTitleInput = getById("note_title");
-  let noteContentInput = getById("note_content");
+  const noteTitleInput = getById("note_title");
+  const noteContentInput = getById("note_content");
   let nodeElement = e.target;
   while (!nodeElement.classList.contains("card")) {
     nodeElement = nodeElement.parentElement;
   }
+  setBorderOfNotesToDefault(nodeElement);
+  setBorderOfSelectedNote(nodeElement);
   noteIndex = parseInt(nodeElement.id - 1);
   note = list[noteIndex];
   saveInStorage("currentNote", note);
   noteTitleInput.value = note.title;
   noteContentInput.value = note.content;
+};
+
+const setBorderOfNotesToDefault = note => {
+  const listContainer = note.parentElement;
+  const notes = [...listContainer.childNodes];
+  notes.forEach(note => note.classList.remove("selected"));
+};
+
+const setBorderOfSelectedNote = nodeElement => {
+  nodeElement.classList.toggle("selected");
 };
 
 const isNoteContainer = e => {

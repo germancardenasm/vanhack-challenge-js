@@ -18,7 +18,7 @@ body {
 }
 
 .side_bar .list_options .section_title {
-  color: #B00057;
+  color: #007DFF;
 }
 
 .side_bar .list_options button {
@@ -36,10 +36,14 @@ body {
 }
 
 .side_bar .notes_list .card {
-  height: 220px;
+  height: 200px;
   width: 100%;
-  max-width: 250px;
-  margin: 1rem auto;
+  max-width: 200px;
+  margin: 0.5rem auto;
+}
+
+.side_bar .notes_list .selected {
+  border: 2px solid #FF007D;
 }
 
 .current_note {
