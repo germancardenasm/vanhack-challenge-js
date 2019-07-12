@@ -81,37 +81,34 @@ body {
 
     margin: 1rem 0 1rem 0;
 
-    .color_picker {
 
+
+    .color_picker {
       i {
-        padding: 0.2rem;
+        padding: 0.5rem;
       }
 
       i:hover {
-        cursor: crosshair;
+        cursor: pointer;
       }
     }
 
     .options_icons {
-      margin-bottom: 0.5rem;
-      padding-right: 0.1rem;
+      margin-bottom: 1rem;
 
       .date {
         position: relative;
         top: 5px;
-        left: 8px;
+
         font-size: 0.6rem;
         color: gray;
       }
 
       .icon {
-        padding-left: 1.25rem;
-        padding-right: 0.3rem;
+        padding-left: 1rem;
       }
 
-
     }
-
 
   }
 
