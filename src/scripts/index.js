@@ -29,6 +29,11 @@ const createWelcomeNote = () => {
 
 const showNotesList = () => {
   const list = getFromStorage("notes");
+  if (list.length === 0) {
+    clearContainer();
+    return;
+  }
+
   clearContainer();
   list.forEach(element => {
     addNewNoteOnScreen(element);
@@ -121,6 +126,7 @@ const loadSelectedNote = e => {
 
   let note = {};
   let noteIndex = 0;
+  let noteId = 0;
   const list = getFromStorage("notes");
   const noteTitleInput = getById("note_title");
   const noteContentInput = getById("note_content");
@@ -130,18 +136,27 @@ const loadSelectedNote = e => {
   }
   setBorderOfNotesToDefault(nodeElement);
   setBorderOfSelectedNote(nodeElement);
-  noteIndex = parseInt(nodeElement.id - 1);
+  noteId = parseInt(nodeElement.id);
+  noteIndex = parseInt(getNoteIndex(list, noteId));
   note = list[noteIndex];
   saveInStorage("currentNote", note);
+  if (!note.title) note.tile = "";
+  if (!note.content) note.content = "";
   noteTitleInput.value = note.title;
   noteContentInput.value = note.content;
 };
 
 const deleteNote = () => {
+  if (!isNote()) return;
   const modalWrapper = getById("modal_wrapper");
   modalWrapper.innerHTML = modal(getFromStorage("currentNote"));
   $("#erase_modal").modal("show");
   addModalEventListener();
+};
+
+const isNote = () => {
+  const isThere = getFromStorage("currentNote").id;
+  return isThere;
 };
 
 const addModalEventListener = () => {
@@ -150,7 +165,20 @@ const addModalEventListener = () => {
 };
 
 const finishErasing = () => {
-  console.log("Erase");
+  $("#erase_modal").modal("hide");
+  const id = getFromStorage("currentNote").id;
+  const notesList = getFromStorage("notes");
+  getById("note_form").reset();
+  const indexNoteToDelete = getNoteIndex(notesList, id);
+  notesList.splice(indexNoteToDelete, 1);
+  saveInStorage("notes", notesList);
+  saveInStorage("currentNote", {});
+  showNotesList();
+};
+
+const discardChanges = () => {
+  saveInStorage("currentNote", {});
+  getById("note_form").reset();
 };
 
 const setBorderOfNotesToDefault = note => {
@@ -187,7 +215,7 @@ let modal = note => {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">
-          Please confirm delete note
+          Please confirm deletion:
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -203,7 +231,7 @@ let modal = note => {
         </div>
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="confirm">Erase</button>
+      <button type="button" class="btn btn-secondary" id="confirm">Delete</button>
       <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -255,7 +283,7 @@ const Note = class {
            <p class="card-text">
             ${this.content}
            </p>
-           <a href="#" class="card-link">Card link</a>
+
          </div>
         `;
   }
