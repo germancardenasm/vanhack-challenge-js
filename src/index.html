@@ -16,7 +16,7 @@
     />
   </head>
   <body>
-    <div class="container-fluid h-100">
+    <div id="container" class="container-fluid h-100">
       <div class="row h-100">
         <div class=" side_bar col-md-4 p-3 " id="side_bar">
           <h1 class="main_title my-2">NoteApp</h1>
@@ -53,9 +53,9 @@
             >
               <span class="date px-1">Date Modified: 18-Sep-19</span>
               <div>
-                <i id="trash" class="icon far fa-trash-alt"></i>
+                <i id="delete" class="icon far fa-trash-alt"></i>
                 <i id="save" class="icon fas fa-save"></i>
-                <i id="close" class="icon fas fa-times"></i>
+                <i id="discardChanges" class="icon fas fa-times"></i>
               </div>
             </div>
 
@@ -92,6 +92,8 @@
           </form>
         </div>
       </div>
+
+      <div id="modal_wrapper"></div>
     </div>
 
     <script

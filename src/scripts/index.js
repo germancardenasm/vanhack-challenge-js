@@ -31,19 +31,19 @@ const showNotesList = () => {
   const list = getFromStorage("notes");
   clearContainer();
   list.forEach(element => {
-    appendNoteOnScreen(element);
+    addNewNoteOnScreen(element);
   });
   idCount.setId(list[list.length - 1].id);
 };
 
-const clearContainer = (section = "notes_list") => {
-  var myNode = getById(section);
-  while (myNode.firstChild) {
-    myNode.removeChild(myNode.firstChild);
+const clearContainer = (container = "notes_list") => {
+  var element = getById(container);
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 };
 
-const appendNoteOnScreen = note => {
+const addNewNoteOnScreen = note => {
   const notes_list = getById("notes_list");
   let newNote = new Note(
     note.title,
@@ -61,6 +61,8 @@ const appendNoteOnScreen = note => {
 
 const addEventListeners = () => {
   getById("save").addEventListener("click", saveNote);
+  getById("discardChanges").addEventListener("click", discardChanges);
+  getById("delete").addEventListener("click", deleteNote);
   getById("color_picker").addEventListener("click", selectColor);
   getById("add_note").addEventListener("click", addNote);
   getById("notes_list").addEventListener("click", loadSelectedNote);
@@ -88,7 +90,7 @@ const saveNote = e => {
     notesList.push(note);
     saveInStorage("notes", notesList);
     saveInStorage("currentNote", note);
-    appendNoteOnScreen(note);
+    addNewNoteOnScreen(note);
   }
 };
 
@@ -135,6 +137,22 @@ const loadSelectedNote = e => {
   noteContentInput.value = note.content;
 };
 
+const deleteNote = () => {
+  const modalWrapper = getById("modal_wrapper");
+  modalWrapper.innerHTML = modal(getFromStorage("currentNote"));
+  $("#erase_modal").modal("show");
+  addModalEventListener();
+};
+
+const addModalEventListener = () => {
+  const confirmButton = getById("confirm");
+  confirmButton.addEventListener("click", finishErasing);
+};
+
+const finishErasing = () => {
+  console.log("Erase");
+};
+
 const setBorderOfNotesToDefault = note => {
   const listContainer = note.parentElement;
   const notes = [...listContainer.childNodes];
@@ -162,6 +180,36 @@ const saveInStorage = (name, value) =>
 const getFromStorage = name => JSON.parse(localStorage.getItem(name));
 
 const getById = id => document.getElementById(id);
+
+let modal = note => {
+  return `<div class="modal fade" id="erase_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+          Please confirm delete note
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <h5 class="card-title">${note.title}</h5>
+          <p class="card-text">
+          ${note.content}
+          </p>
+          <a href="#" class="card-link">Card link</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="confirm">Erase</button>
+      <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+};
 
 const Note = class {
   constructor(
