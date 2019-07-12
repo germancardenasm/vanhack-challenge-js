@@ -1,14 +1,24 @@
+const param = {
+  title: "german",
+  content: "cardenas",
+  id: 3,
+  dateCreated: new Date(),
+  dateModified: new Date()
+};
+
 class Note {
   constructor(
     title = "",
+    content = "",
+    id = 0,
     dateCreated = new Date(),
-    dateModified = new Date(),
-    content = ""
+    dateModified = new Date()
   ) {
     this.title = title;
+    this.content = content;
+    this.id = id;
     this.dateCreated = dateCreated;
     this.dateModified = dateModified;
-    this.content = content;
   }
 
   setContent(note_content) {
@@ -27,14 +37,29 @@ class Note {
   get note() {
     return {
       title: this.title,
+      content: this.content,
+      id: this.id,
       dateCreated: this.dateCreated,
-      lastModified: this.dateModified,
-      text: this.text
+      lastModified: this.dateModified
     };
+  }
+
+  get noteHTML() {
+    return `<div class="card-body">
+           <h5 class="card-title">${this.title}</h5>
+           <p class="card-text">
+            ${this.content}
+           </p>
+           <a href="#" class="card-link">Card link</a>
+         </div>
+        `;
   }
 }
 
-let a = new Note();
+var note = new Note(param); //?
+note;
+
+/* let a = new Note();
 a.setContent = "Esta es la nota de prueba";
 a.note; //?
 
@@ -76,3 +101,4 @@ idCounter.decreseId(); //?
 idCounter.decreseId(); //?
 idCounter.setId(10);
 idCounter.getId(); //?
+ */

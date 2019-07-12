@@ -7,11 +7,7 @@ const init = () => {
     createWelcomeNote();
   }
 
-  const list = getFromStorage("notes");
-  list.forEach(element => {
-    loadNoteInList(element);
-  });
-  idCount.setId(list[list.length - 1].id);
+  showNotesList();
 
   saveInStorage("currentNote", {});
   addEventListeners();
@@ -31,6 +27,38 @@ const createWelcomeNote = () => {
   ]);
 };
 
+const showNotesList = () => {
+  const list = getFromStorage("notes");
+  clearContainer();
+  list.forEach(element => {
+    appendNoteOnScreen(element);
+  });
+  idCount.setId(list[list.length - 1].id);
+};
+
+const clearContainer = (section = "notes_list") => {
+  var myNode = getById(section);
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+};
+
+const appendNoteOnScreen = note => {
+  const notes_list = getById("notes_list");
+  let newNote = new Note(
+    note.title,
+    note.content,
+    note.id,
+    note.dateCreated,
+    note.dataModified
+  );
+  let noteContainer = document.createElement("div");
+  noteContainer.classList.add("card");
+  noteContainer.id = note.id;
+  noteContainer.innerHTML = newNote.noteHTML;
+  notes_list.appendChild(noteContainer);
+};
+
 const addEventListeners = () => {
   getById("save").addEventListener("click", saveNote);
   getById("color_picker").addEventListener("click", selectColor);
@@ -45,27 +73,28 @@ const addNote = () => {
 const saveNote = e => {
   e.preventDefault();
   const notesList = getFromStorage("notes");
-  const currentNoteInStorage = getFromStorage("currentNote");
+  const currentNote = getFromStorage("currentNote");
 
-  if (itIsEditingNote()) {
-    const updatedCurrentNote = updateNote(currentNoteInStorage);
+  if (isEditingNote()) {
+    const updatedCurrentNote = updateNote(currentNote);
     const indexCurrentNote = getNoteIndex(notesList, updatedCurrentNote.id);
     notesList[indexCurrentNote] = updatedCurrentNote;
     saveInStorage("currentNote", updatedCurrentNote);
     saveInStorage("notes", notesList);
+    showNotesList();
   } else {
     const data = getScreenNoteData();
     const note = new Note(data.title, data.content, idCount.getId());
     notesList.push(note);
     saveInStorage("notes", notesList);
     saveInStorage("currentNote", note);
-    loadNoteInList(note);
+    appendNoteOnScreen(note);
   }
 };
 
 const getNoteIndex = (notesList, id) => notesList.findIndex(e => e.id === id);
 
-const itIsEditingNote = () => {
+const isEditingNote = () => {
   const noteExist = getFromStorage("currentNote").id >= 0;
   if (noteExist) return true;
   return false;
@@ -85,30 +114,14 @@ const updateNote = note => {
   return note;
 };
 
-const loadNoteInList = note => {
-  const notes_list = getById("notes_list");
-  let newNote = new Note(
-    note.title,
-    note.content,
-    note.id,
-    note.dateCreated,
-    note.dataModified
-  );
-  let noteContainer = document.createElement("div");
-  noteContainer.classList.add("card");
-  noteContainer.id = note.id;
-  noteContainer.innerHTML = newNote.noteHTML;
-  notes_list.appendChild(noteContainer);
-};
-
 const loadSelectedNote = e => {
+  if (!isNoteContainer(e)) return;
+
   let note = {};
   let noteIndex = 0;
   const list = getFromStorage("notes");
-  let noteTitle = getById("note_title");
-  let noteContent = getById("note_content");
-
-  if (!isNoteContainer(e)) return;
+  let noteTitleInput = getById("note_title");
+  let noteContentInput = getById("note_content");
   let nodeElement = e.target;
   while (!nodeElement.classList.contains("card")) {
     nodeElement = nodeElement.parentElement;
@@ -116,8 +129,8 @@ const loadSelectedNote = e => {
   noteIndex = parseInt(nodeElement.id - 1);
   note = list[noteIndex];
   saveInStorage("currentNote", note);
-  noteTitle.value = note.title;
-  noteContent = note.content;
+  noteTitleInput.value = note.title;
+  noteContentInput.value = note.content;
 };
 
 const isNoteContainer = e => {
@@ -183,7 +196,6 @@ const Note = class {
             ${this.content}
            </p>
            <a href="#" class="card-link">Card link</a>
-           <a href="#" class="card-link">Another link</a>
          </div>
         `;
   }
