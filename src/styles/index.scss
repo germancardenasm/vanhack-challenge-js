@@ -22,13 +22,14 @@ $color-secondary-2-4: #B00057;
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   height: 100%;
+  min-height: 100%
 }
 
 body {
   color: $body-color;
-  height: 95%;
   min-width: 320px;
 }
 
@@ -39,36 +40,67 @@ body {
     color: $color-secondary-2-0;
   }
 
-  .list_options {
-    .section_title {
-      color: $color-primary-0;
-    }
+  .note_list_container {
 
-    button {
-      padding: 0.25rem;
-      text-align: center;
-      width: 50px;
+    .list-options {
       height: 50px;
-      font-size: 1.5rem;
+      position: relative;
+
+      .section_title {
+        position: relative;
+        bottom: 2px;
+        color: $color-primary-0;
+
+      }
+
+      .show_hide_list {
+        width: 30px;
+        height: 50px;
+        line-height: 50px;
+        text-align: right;
+      }
+
+      .icon {
+        font-size: 1.5rem;
+        padding: 0.25rem;
+        cursor: pointer;
+        transition: font-size ease;
+      }
+
+      .icon:hover {
+        font-size: 1.8rem;
+        color: $color-secondary-2-0;
+      }
     }
-  }
 
-  .notes_list {
-    position: relative;
-    min-height: 200px;
-    overflow: scroll;
-
-    .card {
-      height: 200px;
+    /* .list-options::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 25px;
       width: 100%;
-      max-width: 200px;
-      margin: 0.5rem auto;
-    }
+      height: 1px;
+      background: black;
+    } */
 
-    .selected {
-      border: 2px solid #FF007D;
+    .notes_list {
+      position: relative;
+      overflow: scroll;
+
+      .card {
+        height: 180px;
+        width: 180px;
+        min-width: 180px;
+        margin: 0.5rem;
+      }
+
+      .selected {
+        border: 2px solid #FF007D;
+      }
     }
   }
+
+
 
 }
 
@@ -77,8 +109,6 @@ body {
   min-height: 300px;
 
   .note_options {
-
-    margin: 1rem 0 1rem 0;
 
     .color_picker {
       font-size: 1.3rem;
@@ -129,7 +159,22 @@ body {
   }
 
   .note_text {
-    min-height: 300px;
+    min-height: 370px;
   }
 
+}
+
+@media only screen and (min-width: 768px) {
+  .side_bar {
+    max-height: 100%;
+
+    .note_list_container {
+      max-height: 100%;
+
+      .notes_list {
+        overflow: scroll;
+      }
+    }
+
+  }
 }

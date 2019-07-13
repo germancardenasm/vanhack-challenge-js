@@ -65,16 +65,22 @@ const addNewNoteOnScreen = note => {
 };
 
 const addEventListeners = () => {
+  getById("add_note").addEventListener("click", discardChanges);
+  getById("show_hide_list").addEventListener("click", toggleListView);
   getById("save").addEventListener("click", saveNote);
   getById("discardChanges").addEventListener("click", discardChanges);
   getById("delete").addEventListener("click", deleteNote);
   getById("color_picker").addEventListener("click", selectColor);
-  getById("add_note").addEventListener("click", addNote);
+
   getById("notes_list").addEventListener("click", loadSelectedNote);
 };
 
 const addNote = () => {
   console.log("add note");
+};
+
+const toggleListView = () => {
+  console.log("toggle view");
 };
 
 const saveNote = e => {
