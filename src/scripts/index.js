@@ -66,20 +66,23 @@ const addNewNoteOnScreen = note => {
 
 const addEventListeners = () => {
   getById("add_note").addEventListener("click", discardChanges);
-  getById("show_hide_list").addEventListener("click", toggleListView);
   getById("save").addEventListener("click", saveNote);
   getById("discardChanges").addEventListener("click", discardChanges);
   getById("delete").addEventListener("click", deleteNote);
   getById("color_picker").addEventListener("click", selectColor);
   getById("notes_list").addEventListener("click", loadSelectedNote);
+  $("#collapseDiv").on("hidden.bs.collapse", function(e) {
+    const btn = getById("collapseBtn");
+    btn.innerHTML = `<i class="collapse_icon fas fa-caret-down"></i>`;
+  });
+  $("#collapseDiv").on("shown.bs.collapse", function(e) {
+    const btn = getById("collapseBtn");
+    btn.innerHTML = `<i class="collapse_icon fas fa-caret-up"></i>`;
+  });
 };
 
 const addNote = () => {
   console.log("add note");
-};
-
-const toggleListView = () => {
-  console.log("toggle view");
 };
 
 const saveNote = e => {

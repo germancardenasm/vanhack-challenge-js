@@ -47,42 +47,59 @@ body {
         position: relative;
         bottom: 2px;
         color: $color-primary-0;
-
       }
 
-      .show_hide_list {
-        width: 30px;
-        height: 50px;
-        line-height: 50px;
-        text-align: right;
+      .btn {
+        padding: 0;
+        transition: transform 0.3s ease;
       }
 
-      .icon {
-        font-size: 1.5rem;
+      .btn:hover {
+        transform: scale(1.3);
+        color: $color-secondary-2-0;
+      }
+
+      .btn.focus,
+      .btn:focus {
+        outline: 0;
+        box-shadow: none;
+      }
+
+      .add_note {
+        font-size: 1.3rem;
         padding: 0.25rem;
         cursor: pointer;
         transition: font-size ease;
       }
 
-      .icon:hover {
-        font-size: 1.8rem;
-        color: $color-secondary-2-0;
+      .collapse_icon {
+        font-size: 2rem;
+        padding: 0.25rem;
+        cursor: pointer;
+        transition: font-size ease;
       }
+
     }
 
-    .notes_list {
+    .note_list_container {
       position: relative;
       overflow: scroll;
+      width: 100%;
 
-      .card {
-        height: 180px;
-        width: 180px;
-        min-width: 180px;
-        margin: 0.5rem;
-      }
+      .notes_list {
+        position: relative;
+        display: flex;
 
-      .selected {
-        border: 2px solid #FF007D;
+        .card {
+          height: 180px;
+          width: 180px;
+          min-width: 180px;
+          margin: 0.5rem;
+        }
+
+        .selected {
+          border: 2px solid #FF007D;
+        }
       }
     }
   }
@@ -148,7 +165,9 @@ body {
     border: none;
     border-radius: 0;
     border-bottom: 1px solid lightgray;
-    text-transform: capitalize
+    text-transform: capitalize;
+    font-weight: bold;
+    color: black;
   }
 
   .form-control.note_text {

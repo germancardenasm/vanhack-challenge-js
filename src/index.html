@@ -38,20 +38,25 @@
                   ></i>
                   <span class="align-top">Add Note</span>
                 </div>
-                <div
-                  id="show_hide_list"
-                  class="show_hide_list d-flex align-items-center"
+                <button
+                  id="collapseBtn"
+                  class="btn"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapseDiv"
+                  aria-expanded="false"
+                  aria-controls="collapseDiv"
                 >
-                  <i class="icon fas fa-caret-square-down d-none"></i>
-                  <i class="icon fas fa-caret-square-up"></i>
-                </div>
+                  <i class="collapse_icon fas fa-caret-up"></i>
+                </button>
               </div>
             </div>
-
-            <div
-              id="notes_list"
-              class="notes_list d-flex flex-md-column pb-4 align-items-center w-100"
-            ></div>
+            <div id="collapseDiv" class="note_list_container collapse show">
+              <div
+                id="notes_list"
+                class="notes_list d-flex flex-md-column align-items-center w-100 my-3"
+              ></div>
+            </div>
           </div>
         </div>
 
@@ -66,7 +71,7 @@
             >
               <span class="date px-1">Date Modified: 18-Sep-19</span>
               <div>
-                <i id="save" class="icon fas fa-save"></i>
+                <i id="save" class="icon far fa-save"></i>
                 <i id="delete" class="icon far fa-trash-alt"></i>
                 <i id="discardChanges" class="icon fas fa-times"></i>
               </div>
