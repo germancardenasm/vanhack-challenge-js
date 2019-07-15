@@ -16,15 +16,15 @@ const init = () => {
 const notesAlreadyExist = () => localStorage.getItem("notes");
 
 const createWelcomeNote = () => {
-  saveInStorage("notes", [
-    new Note(
-      "This is a example note",
-      `Hi, and thanks for using the new NoteApp`,
-      idCount.getId(),
-      new Date(),
-      new Date()
-    )
-  ]);
+  const welcomeNote = new Note(
+    "This is a example note",
+    `Hi, and thanks for using the new NoteApp`,
+    idCount.getId(),
+    "white",
+    new Date(),
+    new Date()
+  );
+  saveInStorage("notes", [welcomeNote]);
 };
 
 const showNotesList = () => {
@@ -54,12 +54,12 @@ const addNewNoteOnScreen = note => {
     note.title,
     note.content,
     note.id,
+    note.color,
     note.dateCreated,
     note.dataModified
   );
   let noteContainer = document.createElement("div");
-  noteContainer.classList.add("card");
-  noteContainer.id = note.id;
+  noteContainer.classList.add("card_container");
   noteContainer.innerHTML = newNote.noteHTML;
   notes_list.appendChild(noteContainer);
 };
@@ -71,7 +71,6 @@ const addEventListeners = () => {
   getById("discardChanges").addEventListener("click", discardChanges);
   getById("delete").addEventListener("click", deleteNote);
   getById("color_picker").addEventListener("click", selectColor);
-
   getById("notes_list").addEventListener("click", loadSelectedNote);
 };
 
@@ -87,7 +86,7 @@ const saveNote = e => {
   e.preventDefault();
   const notesList = getFromStorage("notes");
   const currentNote = getFromStorage("currentNote");
-
+  const color = getNoteColor();
   if (isEditingNote()) {
     const updatedCurrentNote = updateNote(currentNote);
     const indexCurrentNote = getNoteIndex(notesList, updatedCurrentNote.id);
@@ -96,12 +95,27 @@ const saveNote = e => {
     saveInStorage("notes", notesList);
     showNotesList();
   } else {
-    const data = getScreenNoteData();
-    const note = new Note(data.title, data.content, idCount.getId());
+    const data = getScreenData();
+    const note = new Note(
+      data.title,
+      data.content,
+      idCount.getId(),
+      data.color
+    );
     notesList.push(note);
     saveInStorage("notes", notesList);
     saveInStorage("currentNote", note);
     addNewNoteOnScreen(note);
+  }
+};
+
+const getNoteColor = () => {
+  const colors = getById("color_picker").children;
+  for (let i = 1; i < colors.length; i++) {
+    if (colors[i].classList.contains("selected")) {
+      console.log(colors[i].id);
+      return colors[i].id;
+    }
   }
 };
 
@@ -113,18 +127,23 @@ const isEditingNote = () => {
   return false;
 };
 
-const getScreenNoteData = () => {
+const getScreenData = () => {
   const title = getById("note_title").value;
   const content = getById("note_content").value;
-  return { title: title, content: content };
+  return { title: title, content: content, color: getNoteColor() };
 };
 
 const updateNote = note => {
-  const noteInScreenData = getScreenNoteData();
-  note.title = noteInScreenData.title;
-  note.content = noteInScreenData.content;
-  note.dateModified = new Date();
-  return note;
+  const inScreenData = getScreenData();
+  const updatedNote = new Note(
+    inScreenData.title,
+    inScreenData.title,
+    note.id,
+    inScreenData.color,
+    note.dateCreated,
+    new Date()
+  );
+  return updatedNote;
 };
 
 const loadSelectedNote = e => {
@@ -140,8 +159,8 @@ const loadSelectedNote = e => {
   while (!nodeElement.classList.contains("card")) {
     nodeElement = nodeElement.parentElement;
   }
-  setBorderOfNotesToDefault(nodeElement);
-  setBorderOfSelectedNote(nodeElement);
+  removeClassFromList(nodeElement, "selected");
+  toggleClassFromElement(nodeElement, "selected");
   noteId = parseInt(nodeElement.id);
   noteIndex = parseInt(getNoteIndex(list, noteId));
   note = list[noteIndex];
@@ -187,14 +206,14 @@ const discardChanges = () => {
   getById("note_form").reset();
 };
 
-const setBorderOfNotesToDefault = note => {
-  const listContainer = note.parentElement;
-  const notes = [...listContainer.childNodes];
-  notes.forEach(note => note.classList.remove("selected"));
+const removeClassFromList = (list, classToRemove) => {
+  const listContainer = list.parentElement.parentElement;
+  const notes = [...listContainer.children];
+  notes.forEach(note => note.firstElementChild.classList.remove(classToRemove));
 };
 
-const setBorderOfSelectedNote = nodeElement => {
-  nodeElement.classList.toggle("selected");
+const toggleClassFromElement = (nodeElement, classToToggle) => {
+  nodeElement.classList.toggle(classToToggle);
 };
 
 const isNoteContainer = e => {
@@ -204,8 +223,10 @@ const isNoteContainer = e => {
   return isIt;
 };
 
-const selectColor = () => {
-  console.log("selectColor");
+const selectColor = e => {
+  if (!e.target.classList.contains("color")) return;
+
+  e.target.classList.toggle("selected");
 };
 
 const saveInStorage = (name, value) =>
@@ -227,18 +248,20 @@ let modal = note => {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="card-body">
-          <h5 class="card-title">${note.title}</h5>
-          <p class="card-text">
-          ${note.content}
-          </p>
-          <a href="#" class="card-link">Card link</a>
+      <div class='card'> 
+        <div class="modal-body">
+          <div class="card-body">
+            <h5 class="card-title">${note.title}</h5>
+            <p class="card-text">
+            ${note.content}
+            </p>
+            <a href="#" class="card-link">Card link</a>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" id="confirm">Delete</button>
-      <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="confirm">Delete</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -250,21 +273,31 @@ const Note = class {
     title = "",
     content = "",
     id = 0,
+    color = "white",
     dateCreated = new Date(),
     dateModified = new Date()
   ) {
     this.title = title;
     this.content = content;
     this.id = id;
+    this.color = color;
     this.dateCreated = dateCreated;
     this.dateModified = dateModified;
-  }
-
-  setContent(note_content) {
-    this.content = note_content;
+    this.colors = {
+      white: "bg-light",
+      blue: "bg-primary",
+      red: "bg-danger",
+      green: "bg-success"
+    };
   }
   setTitle(note_title) {
     this.title = note_title;
+  }
+  setContent(note_content) {
+    this.content = note_content;
+  }
+  setColor(note_color) {
+    this.color = note_color;
   }
   setDateCreated(date) {
     this.dateCreated = date;
@@ -278,19 +311,21 @@ const Note = class {
       title: this.title,
       content: this.content,
       id: this.id,
+      color: this.color,
       dateCreated: this.dateCreated,
       lastModified: this.dateModified
     };
   }
 
   get noteHTML() {
-    return `<div class="card-body">
-           <h5 class="card-title">${this.title}</h5>
-           <p class="card-text">
-            ${this.content}
-           </p>
-
-         </div>
+    return `<div id=${this.id} class="card ${this.colors[this.color]}">
+              <div class="card-body">
+                <h5 class="card-title">${this.title}</h5>
+                <p class="card-text">
+                  ${this.content}
+                </p>
+              </div>
+            </div>
         `;
   }
 };

@@ -1,8 +1,3 @@
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
 html,
 body {
   height: 100%;
@@ -83,14 +78,28 @@ body {
 
 .current_note .note_options .color_picker {
   font-size: 1.3rem;
+  height: 55px;
+  position: relative;
 }
 
 .current_note .note_options .color_picker i {
   margin: 0.5rem;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  height: 1.3rem;
 }
 
 .current_note .note_options .color_picker i:hover {
   cursor: pointer;
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+.current_note .note_options .color_picker i.selected {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
 }
 
 .current_note .note_options .options_icons {
@@ -108,12 +117,15 @@ body {
 .current_note .note_options .options_icons .icon {
   margin-left: 1rem;
   font-size: 1.3rem;
-  -webkit-transition: font-size 0.3s ease;
-  transition: font-size 0.3s ease;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
 }
 
 .current_note .note_options .options_icons .icon:hover {
-  font-size: 1.5rem;
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
   cursor: pointer;
   color: #FF007D;
 }
