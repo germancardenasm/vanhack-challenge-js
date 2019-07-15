@@ -156,12 +156,12 @@ const loadSelectedNote = e => {
   const noteTitleInput = getById("note_title");
   const noteContentInput = getById("note_content");
   let nodeElement = e.target;
-  while (!nodeElement.classList.contains("card")) {
+  while (!nodeElement.classList.contains("card_container")) {
     nodeElement = nodeElement.parentElement;
   }
-  removeClassFromList(nodeElement, "selected");
+  removeClassFromList(nodeElement.parentElement.children, "selected");
   toggleClassFromElement(nodeElement, "selected");
-  noteId = parseInt(nodeElement.id);
+  noteId = parseInt(nodeElement.firstChild.id);
   noteIndex = parseInt(getNoteIndex(list, noteId));
   note = list[noteIndex];
   saveInStorage("currentNote", note);
@@ -207,9 +207,8 @@ const discardChanges = () => {
 };
 
 const removeClassFromList = (list, classToRemove) => {
-  const listContainer = list.parentElement.parentElement;
-  const notes = [...listContainer.children];
-  notes.forEach(note => note.firstElementChild.classList.remove(classToRemove));
+  const notes = [...list];
+  notes.forEach(note => note.classList.remove(classToRemove));
 };
 
 const toggleClassFromElement = (nodeElement, classToToggle) => {
@@ -225,8 +224,8 @@ const isNoteContainer = e => {
 
 const selectColor = e => {
   if (!e.target.classList.contains("color")) return;
-
-  e.target.classList.toggle("selected");
+  removeClassFromList(e.target.parentElement.children, "selected");
+  toggleClassFromElement(e.target, "selected");
 };
 
 const saveInStorage = (name, value) =>
