@@ -8,7 +8,6 @@ const init = () => {
   }
 
   showNotesList();
-
   saveInStorage("currentNote", {});
   addEventListeners();
 };
@@ -29,12 +28,8 @@ const createWelcomeNote = () => {
 
 const showNotesList = () => {
   const list = getFromStorage("notes");
-  if (list.length === 0) {
-    clearContainer();
-    return;
-  }
-
   clearContainer();
+  if (list.length === 0) return;
   list.forEach(element => {
     addNewNoteOnScreen(element);
   });
@@ -86,7 +81,6 @@ const addNote = () => {
 };
 
 const saveNote = e => {
-  e.preventDefault();
   const notesList = getFromStorage("notes");
   const currentNote = getFromStorage("currentNote");
   const color = getNoteColor();
@@ -96,7 +90,6 @@ const saveNote = e => {
     notesList[indexCurrentNote] = updatedCurrentNote;
     saveInStorage("currentNote", updatedCurrentNote);
     saveInStorage("notes", notesList);
-    showNotesList();
   } else {
     const data = getScreenData();
     const note = new Note(
@@ -108,8 +101,8 @@ const saveNote = e => {
     notesList.push(note);
     saveInStorage("notes", notesList);
     saveInStorage("currentNote", note);
-    addNewNoteOnScreen(note);
   }
+  showNotesList();
 };
 
 const getNoteColor = () => {
@@ -200,8 +193,14 @@ const finishErasing = () => {
 };
 
 const discardChanges = () => {
+  unselectNotes();
   saveInStorage("currentNote", {});
   getById("note_form").reset();
+};
+
+const unselectNotes = () => {
+  const list = getById("notes_list").children;
+  removeClassFromList(list, "selected");
 };
 
 const removeClassFromList = (list, classToRemove) => {
