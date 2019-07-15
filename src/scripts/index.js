@@ -3,13 +3,13 @@ import "../styles/index.scss";
 let idCount = notesIdCounter();
 
 const init = () => {
-  if (!notesAlreadyExist()) createWelcomeNote();
+  if (!notesExist()) createWelcomeNote();
   saveInStorage("currentNote", {});
   showNotes();
   addEventListeners();
 };
 
-const notesAlreadyExist = () => localStorage.getItem("notes");
+const notesExist = () => localStorage.getItem("notes");
 
 const createWelcomeNote = () => {
   const welcomeNote = new Note(
@@ -24,16 +24,17 @@ const createWelcomeNote = () => {
 };
 
 const showNotes = () => {
-  const list = getFromStorage("notes");
-  clearNotesContainer();
-  if (list.length === 0) return;
-  list.forEach(element => {
+  const noteList = getFromStorage("notes");
+  if (noteList.length === 0) return;
+  clearContainer("notes_list");
+  noteList.forEach(element => {
     addNewNoteOnScreen(element);
   });
-  idCount.setId(list[list.length - 1].id);
+
+  idCount.setId(noteList[noteList.length - 1].id);
 };
 
-const clearNotesContainer = (container = "notes_list") => {
+const clearContainer = (container = "notes_list") => {
   var element = getById(container);
   while (element.firstChild) {
     element.removeChild(element.firstChild);
@@ -41,7 +42,7 @@ const clearNotesContainer = (container = "notes_list") => {
 };
 
 const addNewNoteOnScreen = note => {
-  const notes_list = getById("notes_list");
+  const notesList = getById("notes_list");
   let newNote = new Note(
     note.title,
     note.content,
@@ -50,19 +51,18 @@ const addNewNoteOnScreen = note => {
     note.dateCreated,
     note.dataModified
   );
-  let noteContainer = document.createElement("div");
-  noteContainer.classList.add("card_container");
-  noteContainer.innerHTML = newNote.noteHTML;
-  notes_list.appendChild(noteContainer);
+  let newNoteContainer = document.createElement("div");
+  newNoteContainer.classList.add("card_container");
+  newNoteContainer.innerHTML = newNote.noteHTML;
+  notesList.appendChild(newNoteContainer);
 };
 
 const addEventListeners = () => {
-  getById("add_note").addEventListener("click", discardChanges);
-  getById("save").addEventListener("click", saveNote);
-  getById("discardChanges").addEventListener("click", discardChanges);
-  getById("delete").addEventListener("click", deleteNote);
-  getById("color_picker").addEventListener("click", selectColor);
-  getById("notes_list").addEventListener("click", loadSelectedNote);
+  getById("add_note").addEventListener("click", addNote);
+  getById("note_actions").addEventListener("click", dispatchNoteActions);
+  getById("color_picker").addEventListener("click", selectNotesColor);
+  getById("notes_list").addEventListener("click", loadClickeddNote);
+  //show button depending on state of collapsable container where notes are shown
   $("#collapseDiv").on("hidden.bs.collapse", function(e) {
     const btn = getById("collapseBtn");
     btn.innerHTML = `<i class="collapse_icon fas fa-caret-down"></i>`;
@@ -73,35 +73,54 @@ const addEventListeners = () => {
   });
 };
 
-const addNote = () => {
-  console.log("add note");
+const dispatchNoteActions = e => {
+  if (!e.target.classList.contains("icon")) return;
+  switch (e.target.id) {
+    case "save":
+      saveOrEditNote();
+      break;
+    case "discardChanges":
+      addNote();
+      break;
+    case "delete":
+      deleteNote();
+      break;
+    default:
+  }
 };
 
-const saveNote = e => {
-  const notesList = getFromStorage("notes");
+const saveOrEditNote = e => {
+  let currentNoteId = 0;
+  let noteContainer;
   const currentNote = getFromStorage("currentNote");
-  const color = getNoteColor();
   if (isEditingNote()) {
-    const updatedCurrentNote = updateNote(currentNote);
-    const indexCurrentNote = getNoteIndex(notesList, updatedCurrentNote.id);
-    notesList[indexCurrentNote] = updatedCurrentNote;
-    saveInStorage("currentNote", updatedCurrentNote);
-    saveInStorage("notes", notesList);
+    editNote(currentNote);
   } else {
-    const data = getScreenData();
-    const note = new Note(
-      data.title,
-      data.content,
-      idCount.getId(),
-      data.color
-    );
-    notesList.push(note);
-    saveInStorage("notes", notesList);
-    saveInStorage("currentNote", note);
+    createNewNote();
   }
   removeSelectionBorder();
   showNotes();
   drawBorderOnCurrenNote();
+  currentNoteId = getFromStorage("currentNote").id;
+  positionFigureCentered(currentNoteId, "h");
+};
+
+const editNote = note => {
+  let notesList = getFromStorage("notes");
+  const updatedCurrentNote = updateNote(note);
+  const indexCurrentNote = getNoteIndex(notesList, updatedCurrentNote.id);
+  notesList[indexCurrentNote] = updatedCurrentNote;
+  saveInStorage("currentNote", updatedCurrentNote);
+  saveInStorage("notes", notesList);
+};
+
+const createNewNote = () => {
+  let notesList = getFromStorage("notes");
+  const data = getScreenData();
+  const note = new Note(data.title, data.content, idCount.getId(), data.color);
+  notesList.push(note);
+  saveInStorage("notes", notesList);
+  saveInStorage("currentNote", note);
 };
 
 const getNoteColor = () => {
@@ -152,7 +171,7 @@ const drawBorderOnCurrenNote = () => {
   toggleClassFromElement(notesContainer.children[noteIndex], "selected");
 };
 
-const loadSelectedNote = e => {
+const loadClickeddNote = e => {
   if (!isNoteContainer(e)) return;
 
   let note = {};
@@ -231,7 +250,7 @@ const finishErasing = () => {
   showNotes();
 };
 
-const discardChanges = () => {
+const addNote = () => {
   removeSelectionBorder();
   saveInStorage("currentNote", {});
   getById("note_form").reset();
@@ -273,7 +292,7 @@ const fillNoteOnScreen = note => {
   noteContentInput.value = note.content;
 };
 
-const selectColor = e => {
+const selectNotesColor = e => {
   if (!e.target.classList.contains("color")) return;
   removeClassFromList(e.target.parentElement.children, "selected");
   toggleClassFromElement(e.target, "selected");
