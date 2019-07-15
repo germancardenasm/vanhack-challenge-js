@@ -102,7 +102,9 @@ const saveNote = e => {
     saveInStorage("notes", notesList);
     saveInStorage("currentNote", note);
   }
+  removeSelectionBorder();
   showNotesList();
+  drawBorderOnCurrenNote();
 };
 
 const getNoteColor = () => {
@@ -140,6 +142,17 @@ const updateNote = note => {
     new Date()
   );
   return updatedNote;
+};
+
+const drawBorderOnCurrenNote = () => {
+  const notesContainer = getById("notes_list");
+  const list = [...notesContainer.children];
+  const id = getFromStorage("currentNote").id;
+  const noteIndex = list.findIndex(
+    e => parseInt(e.firstElementChild.id) === id
+  );
+  removeSelectionBorder();
+  toggleClassFromElement(notesContainer.children[noteIndex], "selected");
 };
 
 const loadSelectedNote = e => {
@@ -193,12 +206,12 @@ const finishErasing = () => {
 };
 
 const discardChanges = () => {
-  unselectNotes();
+  removeSelectionBorder();
   saveInStorage("currentNote", {});
   getById("note_form").reset();
 };
 
-const unselectNotes = () => {
+const removeSelectionBorder = () => {
   const list = getById("notes_list").children;
   removeClassFromList(list, "selected");
 };
