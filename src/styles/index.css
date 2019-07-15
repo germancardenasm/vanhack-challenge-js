@@ -13,18 +13,6 @@ body {
   color: #FF007D;
 }
 
-.side_bar .note_list_container {
-  /* .list-options::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 25px;
-      width: 100%;
-      height: 1px;
-      background: black;
-    } */
-}
-
 .side_bar .note_list_container .list-options {
   height: 50px;
   position: relative;

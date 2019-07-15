@@ -153,22 +153,17 @@ const loadSelectedNote = e => {
   let noteIndex = 0;
   let noteId = 0;
   const list = getFromStorage("notes");
-  const noteTitleInput = getById("note_title");
-  const noteContentInput = getById("note_content");
-  let nodeElement = e.target;
-  while (!nodeElement.classList.contains("card_container")) {
-    nodeElement = nodeElement.parentElement;
+  let noteElement = e.target;
+  while (!noteElement.classList.contains("card_container")) {
+    noteElement = noteElement.parentElement;
   }
-  removeClassFromList(nodeElement.parentElement.children, "selected");
-  toggleClassFromElement(nodeElement, "selected");
-  noteId = parseInt(nodeElement.firstChild.id);
+  removeClassFromList(noteElement.parentElement.children, "selected");
+  toggleClassFromElement(noteElement, "selected");
+  noteId = parseInt(noteElement.firstChild.id);
   noteIndex = parseInt(getNoteIndex(list, noteId));
   note = list[noteIndex];
   saveInStorage("currentNote", note);
-  if (!note.title) note.tile = "";
-  if (!note.content) note.content = "";
-  noteTitleInput.value = note.title;
-  noteContentInput.value = note.content;
+  fillNoteOnScreen(note);
 };
 
 const deleteNote = () => {
@@ -220,6 +215,21 @@ const isNoteContainer = e => {
     e.target.parentElement.classList.contains("card-body") ||
     e.target.parentElement.classList.contains("card");
   return isIt;
+};
+
+const fillNoteOnScreen = note => {
+  const noteTitleInput = getById("note_title");
+  const noteContentInput = getById("note_content");
+  const colorsList = getById("color_picker").children;
+  const noteColor = getById(note.color);
+  removeClassFromList(colorsList, "selected");
+  toggleClassFromElement(noteColor, "selected");
+
+  if (!note.title) note.tile = "";
+  if (!note.content) note.content = "";
+
+  noteTitleInput.value = note.title;
+  noteContentInput.value = note.content;
 };
 
 const selectColor = e => {
