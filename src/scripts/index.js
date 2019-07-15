@@ -3,12 +3,9 @@ import "../styles/index.scss";
 let idCount = notesIdCounter();
 
 const init = () => {
-  if (!notesAlreadyExist()) {
-    createWelcomeNote();
-  }
-
-  showNotesList();
+  if (!notesAlreadyExist()) createWelcomeNote();
   saveInStorage("currentNote", {});
+  showNotes();
   addEventListeners();
 };
 
@@ -26,9 +23,9 @@ const createWelcomeNote = () => {
   saveInStorage("notes", [welcomeNote]);
 };
 
-const showNotesList = () => {
+const showNotes = () => {
   const list = getFromStorage("notes");
-  clearContainer();
+  clearNotesContainer();
   if (list.length === 0) return;
   list.forEach(element => {
     addNewNoteOnScreen(element);
@@ -36,7 +33,7 @@ const showNotesList = () => {
   idCount.setId(list[list.length - 1].id);
 };
 
-const clearContainer = (container = "notes_list") => {
+const clearNotesContainer = (container = "notes_list") => {
   var element = getById(container);
   while (element.firstChild) {
     element.removeChild(element.firstChild);
@@ -103,7 +100,7 @@ const saveNote = e => {
     saveInStorage("currentNote", note);
   }
   removeSelectionBorder();
-  showNotesList();
+  showNotes();
   drawBorderOnCurrenNote();
 };
 
@@ -173,6 +170,35 @@ const loadSelectedNote = e => {
   note = list[noteIndex];
   saveInStorage("currentNote", note);
   fillNoteOnScreen(note);
+  positionFigureCentered(noteId, "h");
+};
+
+const positionFigureCentered = (id, direction = "h") => {
+  const figure = getById(id);
+  const container = getById("collapseDiv");
+  let viewPortWidth = window.innerWidth || document.documentElement.clientWidth;
+  let viewPortHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+  let figureRectangle = figure.getBoundingClientRect();
+  let destinationHorizontalPoint =
+    viewPortWidth / 2 - figureRectangle.width / 2;
+  let destinationVerticalPoint =
+    viewPortHeight / 2 - figureRectangle.height / 2;
+  let distanceHorizontal = figureRectangle.x - destinationHorizontalPoint;
+  let distanceVertical = figureRectangle.y - destinationVerticalPoint;
+  if (direction === "h") {
+    container.scrollBy({
+      top: 0,
+      left: distanceHorizontal,
+      behavior: "smooth"
+    });
+  } else {
+    container.scrollBy({
+      top: distanceVertical,
+      left: 0,
+      behavior: "smooth"
+    });
+  }
 };
 
 const deleteNote = () => {
@@ -202,7 +228,7 @@ const finishErasing = () => {
   notesList.splice(indexNoteToDelete, 1);
   saveInStorage("notes", notesList);
   saveInStorage("currentNote", {});
-  showNotesList();
+  showNotes();
 };
 
 const discardChanges = () => {

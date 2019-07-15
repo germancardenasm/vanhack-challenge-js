@@ -21,7 +21,7 @@ body {
 .side_bar .note_list_container .list-options .section_title {
   position: relative;
   bottom: 2px;
-  color: #007DFF;
+  color: black;
 }
 
 .side_bar .note_list_container .list-options .btn {
@@ -30,6 +30,7 @@ body {
   transition: -webkit-transform 0.3s ease;
   transition: transform 0.3s ease;
   transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  color: #007DFF;
 }
 
 .side_bar .note_list_container .list-options .btn:hover {
@@ -49,8 +50,17 @@ body {
   font-size: 1.3rem;
   padding: 0.25rem;
   cursor: pointer;
-  -webkit-transition: font-size ease;
-  transition: font-size ease;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  color: #007DFF;
+}
+
+.side_bar .note_list_container .list-options .add_note:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+  color: #FF007D;
 }
 
 .side_bar .note_list_container .list-options .collapse_icon {
@@ -61,27 +71,27 @@ body {
   transition: font-size ease;
 }
 
-.side_bar .note_list_container .note_list_container {
+.side_bar .note_list_container .list_container {
   position: relative;
   overflow: scroll;
   width: 100%;
 }
 
-.side_bar .note_list_container .note_list_container .notes_list {
+.side_bar .note_list_container .list_container .notes_list {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.side_bar .note_list_container .note_list_container .notes_list .card {
+.side_bar .note_list_container .list_container .notes_list .card {
   height: 180px;
   width: 180px;
   min-width: 180px;
   margin: 0.5rem;
 }
 
-.side_bar .note_list_container .note_list_container .notes_list .selected {
+.side_bar .note_list_container .list_container .notes_list .selected {
   border: 2px solid #FF007D;
 }
 
@@ -96,7 +106,7 @@ body {
 }
 
 .current_note .note_options .color_picker i {
-  margin: 0.5rem;
+  margin: 0.4rem;
   -webkit-transition: -webkit-transform 0.3s ease-in-out;
   transition: -webkit-transform 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out;
@@ -120,6 +130,7 @@ body {
   vertical-align: middle;
   height: 30px;
   line-height: 30px;
+  color: #007DFF;
 }
 
 .current_note .note_options .options_icons .date {
@@ -166,9 +177,9 @@ body {
   }
   .side_bar .note_list_container {
     max-height: 100%;
-  }
-  .side_bar .note_list_container .notes_list {
-    overflow: scroll;
+    /*       .notes_list {
+        overflow: scroll;
+      } */
   }
 }
 /*# sourceMappingURL=index.css.map */
